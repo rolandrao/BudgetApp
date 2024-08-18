@@ -1,15 +1,9 @@
 import streamlit as st
 import pandas as pd
 import os
-from googleapiclient.http import MediaFileUpload
-from Google import Create_Service
-import json
 
 
 
-config = json.load('config.json')
-
-service = Create_Service('client-secret.json', config['API_NAME'], config['API_VERSION'], config['SCOPES'] )
 
 def download_file():
     path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")
