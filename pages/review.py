@@ -32,3 +32,8 @@ download = st.button("Download")
 
 if download:
     download_file()
+
+if export:
+    df = df[df['Shared?'] != 'N/A']
+    path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")
+    df.to_csv(path)
