@@ -73,7 +73,7 @@ next_button = st.button("Next Section")
 if next_button:
     if st.session_state.df is not None and who_paid is not None:
         st.session_state.roommate = who_paid
-        st.session_state.filename = datetime.now()
+        st.session_state.filename = datetime.now().strftime("%m_%d_%Y__%H_%M_%S")
         st.switch_page('pages/decision.py')
 
 
