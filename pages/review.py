@@ -12,7 +12,7 @@ config = json.load('config.json')
 service = Create_Service('client-secret.json', config['API_NAME'], config['API_VERSION'], config['SCOPES'] )
 
 def download_file():
-    path = os.path.join(f"exports/{st.session_state.month}_{st.session_state.year}_export.csv")
+    path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")
     df.to_csv(path)
     return path
 
@@ -32,8 +32,3 @@ download = st.button("Download")
 
 if download:
     download_file()
-
-if export:
-    df = df[df['Shared?'] != 'N/A']
-    path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")
-    df.to_csv(path)

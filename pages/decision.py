@@ -7,6 +7,8 @@ if 'df' not in st.session_state:
     st.session_state.df = None
 if 'row_ind' not in st.session_state:
     st.session_state.row_ind = 0
+if 'roommate' not in st.session_state:
+    st.session_state.roommate = None
 
 df = st.session_state.df
 row = df.iloc[[st.session_state.row_ind]]
@@ -45,7 +47,7 @@ cat = st.radio("Expense Category", [
     'Miscellaneous'
 ], index=None)
 amt = st.number_input("Amount", st.session_state.amt, key='amt')
-who = st.text_input("Who Paid?", "Roland")
+who = st.text_input("Who Paid?", st.session_state.roommate)
 
 def update(status):
     df.at[st.session_state.row_ind, 'Shared?'] = status

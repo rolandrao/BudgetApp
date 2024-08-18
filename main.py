@@ -4,15 +4,14 @@ from datetime import datetime
 
 if 'df' not in st.session_state:
     st.session_state.df = None
-if 'month' not in st.session_state:
-    st.session_state.month = None
-if 'year' not in st.session_state:
-    st.session_state.year = None
+if 'roommate' not in st.session_state:
+    st.session_state.roommate = None
 
 files = st.file_uploader("Upload a statement csv", accept_multiple_files=True)
 dfs = []
 
 
+who_paid = st.selectbox(label="Roommate", options=['Roland', 'Sarah'])
 preprocess = st.button('Preprocess')
 if preprocess and files is not None:
     print(files)
@@ -26,9 +25,13 @@ if preprocess and files is not None:
             df = df[df['Type'] != 'Payment']
             df = df[['Transaction Date', 'Description', 'Amount (USD)']]
             df = df.rename(columns = {'Amount (USD)': 'Amount'})
+        elif 'capital_one' in file.name:
+            df = df[df['Category'] != 'Payment/Credit']
+            df = df[['Transaction Date', 'Description', 'Debit']]
+            df = df.rename(columns = {'Debit': 'Amount'})
         df['Expense Category'] = ''
         df['Shared?'] = ''
-        df['Who Paid?'] = 'Roland'
+        df['Who Paid?'] = who_paid
         df = df.rename(columns = {
             'Transaction Date': 'Timestamp',
             'Description': 'Notes'
@@ -40,25 +43,9 @@ if preprocess and files is not None:
     st.session_state.df = df_final
     st.dataframe(st.session_state.df)
 
-month = st.selectbox('Month', [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-])
 
 
 
-year = st.number_input('Year', value = datetime.now().year, step=1)
-    
 
 
 # if file is not None:
@@ -79,11 +66,11 @@ year = st.number_input('Year', value = datetime.now().year, step=1)
 
 
 
+
 next_button = st.button("Next Section")
 if next_button:
-    if st.session_state.df is not None and month is not None and year is not None:
-        st.session_state.month = month
-        st.session_state.year = year
+    if st.session_state.df is not None and who_paid is not None:
+        st.session_state.roommate = who_paid
         st.switch_page('pages/decision.py')
 
 
