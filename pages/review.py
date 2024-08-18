@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import os
 
-
-
+if 'filename' not in st.session_state:
+    st.session_state.filename = None
 
 def download_file():
     path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")

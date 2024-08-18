@@ -6,6 +6,8 @@ if 'df' not in st.session_state:
     st.session_state.df = None
 if 'roommate' not in st.session_state:
     st.session_state.roommate = None
+if 'filename' not in st.session_state:
+    st.session_state.filename = None
 
 files = st.file_uploader("Upload a statement csv", accept_multiple_files=True)
 dfs = []
@@ -71,6 +73,7 @@ next_button = st.button("Next Section")
 if next_button:
     if st.session_state.df is not None and who_paid is not None:
         st.session_state.roommate = who_paid
+        st.session_state.filename = datetime.now()
         st.switch_page('pages/decision.py')
 
 
