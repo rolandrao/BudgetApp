@@ -18,5 +18,6 @@ st.dataframe(df)
 export = st.button("Export")
 
 if export:
-    path = os.path.join(f"exports/{st.session_state.filename}_export.csv")
+    df = df[df['Shared?'] != 'N/A']
+    path = os.path.join(f"exports/{st.session_state.filename[:-4]}_export.csv")
     df.to_csv(path)

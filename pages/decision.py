@@ -35,6 +35,7 @@ notes = st.text_input("Notes", st.session_state.notes, key='notes')
 cat = st.radio("Expense Category", [
     'Groceries', 
     'Shopping', 
+    'Cat',
     'Bills', 
     'Savings',
     'Transportation', 
