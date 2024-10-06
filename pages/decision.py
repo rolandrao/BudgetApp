@@ -7,22 +7,21 @@ if 'df' not in st.session_state:
     st.session_state.df = None
 if 'row_ind' not in st.session_state:
     st.session_state.row_ind = 0
-if 'roommate' not in st.session_state:
-    st.session_state.roommate = None
 
 df = st.session_state.df
-row = df.iloc[[st.session_state.row_ind]]
+print(st.session_state.row_ind)
+row = df.iloc[st.session_state.row_ind]
 
 if 'ts' not in st.session_state:
-    st.session_state.ts = row['Timestamp'][0]
+    st.session_state.ts = row['Timestamp']
 if 'cat' not in st.session_state:
-    st.session_state.cat = row['Expense Category'][0]
+    st.session_state.cat = row['Expense Category']
 if 'amt' not in st.session_state:
-    st.session_state.amt = float(row['Amount'].iloc[0])
+    st.session_state.amt = float(row['Amount'])
 if 'who' not in st.session_state:
     st.session_state.who = row['Who Paid?']
 if 'notes' not in st.session_state:
-    st.session_state.notes = row['Notes'][0]
+    st.session_state.notes = row['Notes']
 if 'finish' not in st.session_state:
     st.session_state.finish = True
 if 'other_buttons' not in st.session_state:
@@ -47,7 +46,7 @@ cat = st.radio("Expense Category", [
     'Miscellaneous'
 ], index=None)
 amt = st.number_input("Amount", st.session_state.amt, key='amt')
-who = st.text_input("Who Paid?", st.session_state.roommate)
+who = st.text_input("Who Paid?", st.session_state.who, key='who')
 
 def update(status):
     df.at[st.session_state.row_ind, 'Shared?'] = status

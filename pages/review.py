@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
-import os
 
 if 'filename' not in st.session_state:
     st.session_state.filename = None
 
 def download_file():
-    path = f"test_{st.session_state.filename}_export.csv"
+    path = f"exports/{st.session_state.filename}_export.csv"
     df.to_csv(path)
 
 st.write("Review the spreadsheet before exporting")

@@ -4,8 +4,6 @@ from datetime import datetime
 
 if 'df' not in st.session_state:
     st.session_state.df = None
-if 'roommate' not in st.session_state:
-    st.session_state.roommate = None
 if 'filename' not in st.session_state:
     st.session_state.filename = None
 
@@ -23,6 +21,7 @@ if preprocess and files is not None:
         if 'marriott' in file.name:
             df = df[df['Type'] != 'Payment']
             df = df[['Transaction Date', 'Description', 'Amount']]
+            df['Amount'] = df['Amount'] * -1
         elif 'apple' in file.name:
             df = df[df['Type'] != 'Payment']
             df = df[['Transaction Date', 'Description', 'Amount (USD)']]
@@ -38,10 +37,11 @@ if preprocess and files is not None:
             'Transaction Date': 'Timestamp',
             'Description': 'Notes'
         })
+        df = df[['Timestamp', 'Expense Category', 'Amount', 'Who Paid?', 'Shared?', 'Notes']]
         dfs.append(df)
         
-    print(dfs)
     df_final = pd.concat(dfs, ignore_index=True)
+    print(df_final)
     st.session_state.df = df_final
     st.dataframe(st.session_state.df)
 
@@ -71,8 +71,7 @@ if preprocess and files is not None:
 
 next_button = st.button("Next Section")
 if next_button:
-    if st.session_state.df is not None and who_paid is not None:
-        st.session_state.roommate = who_paid
+    if st.session_state.df is not None:
         st.session_state.filename = datetime.now().strftime("%m_%d_%Y__%H_%M_%S")
         st.switch_page('pages/decision.py')
 
